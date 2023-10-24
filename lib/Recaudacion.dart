@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_sm/reporte_departamento.dart';
 
 // Ejemplo de otra pantalla
 class Recaudacion extends StatelessWidget {
@@ -11,6 +12,17 @@ class Recaudacion extends StatelessWidget {
       body: Center(
         child: Text('Contenido de la otra pantalla'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Aquí manejas la navegación a la otra pantalla
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ReporteDepartamento()),
+          );
+        },
+        child: Icon(Icons.arrow_forward),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
