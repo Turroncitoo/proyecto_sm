@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/Recaudacion.dart';
-import 'package:proyecto_sm/bellavista.dart';
+import 'package:proyecto_sm/main_app.dart';
 
-
-class MainApp extends StatelessWidget {
+class Bellavista extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +26,10 @@ class MainApp extends StatelessWidget {
           ),
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-          )
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(25),
+              bottomRight: Radius.circular(25),
+            )
         ),
       ),
       body: Column(
@@ -38,7 +37,7 @@ class MainApp extends StatelessWidget {
           Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              Image.asset('assets/img/naranjal.jpg'),
+              Image.asset('assets/img/bellavista.jpg'),
               Positioned(
                 left: 0,
                 bottom: 10,
@@ -54,7 +53,7 @@ class MainApp extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: Text(
-                        'BRISAS DE NARANJAL',
+                        'BELLAVISTA',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -130,7 +129,7 @@ class MainApp extends StatelessWidget {
                               ),
                               SizedBox(width: 8), // Ajusta el espacio horizontal
                               Text(
-                                'Av. Amezaga, Lima 15081',
+                                'Av. Los Libertadores 712',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -150,7 +149,7 @@ class MainApp extends StatelessWidget {
                               ),
                               SizedBox(width: 8), // Ajusta el espacio horizontal
                               Text(
-                                '910 - 021',
+                                '910 - 325',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -186,7 +185,7 @@ class MainApp extends StatelessWidget {
                               ),
                               SizedBox(width: 8), // Ajusta el espacio horizontal
                               Text(
-                                'Edgardo Fernández',
+                                'Juan Perez',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -201,12 +200,7 @@ class MainApp extends StatelessWidget {
                   SizedBox(height: 15),
                   // Botón RECAUDACIÓN
                   ElevatedButton(
-                    onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Recaudacion()),
-                        );
-                      },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       primary: Colors.blue, // Color de fondo del botón
                       shape: RoundedRectangleBorder(
@@ -230,17 +224,33 @@ class MainApp extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Aquí manejas la navegación a la otra pantalla
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Bellavista()),
-          );
-        },
-        child: Icon(Icons.arrow_forward),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () {
+                // Aquí manejas la navegación hacia atrás
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainApp()),
+                );
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            SizedBox(width: 16), // Agrega un espacio entre los botones
+            FloatingActionButton(
+              onPressed: () {
+                // Aquí manejas la navegación a la otra pantalla
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Recaudacion()),
+                );
+              },
+              child: Icon(Icons.arrow_forward),
+            ),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat
     );
   }
 }
