@@ -26,10 +26,12 @@ class Recaudacion extends StatelessWidget {
           onPressed: () {},
           icon: IconButton(
             onPressed: () {
+              /*
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => MainApp()),
               );
+               */
             },
             icon: Icon(Icons.arrow_back),
           ),
@@ -45,7 +47,7 @@ class Recaudacion extends StatelessWidget {
           builder: (context, constraints){
             return SingleChildScrollView(
               child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 10),

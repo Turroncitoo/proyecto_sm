@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/Recaudacion.dart';
-import 'package:proyecto_sm/bellavista.dart';
+import 'package:proyecto_sm/menu_condominios.dart';
+import 'package:proyecto_sm/models/predio_model.dart';
 
 
 class MainApp extends StatelessWidget {
+  final Predio predio; // Agrega una instancia de Predio
+  final List<Predio> predios; // Agrega una lista de predios
+
+  MainApp(this.predio, this.predios); // Constructor que recibe predio y predios
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,10 @@ class MainApp extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.close),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MenuCondominios()),
+              );
             },
           ),
         ],
@@ -27,10 +36,10 @@ class MainApp extends StatelessWidget {
           ),
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-          )
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(25),
+              bottomRight: Radius.circular(25),
+            )
         ),
       ),
       body: Column(
@@ -54,7 +63,7 @@ class MainApp extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: Text(
-                        'BRISAS DE NARANJAL',
+                        '${predio.descripcion}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -116,49 +125,53 @@ class MainApp extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Primera fila con la primera imagen y texto
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center, // Centra verticalmente el contenido
-                            children: [
-                              Image.asset(
-                                'assets/img/direccion.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8), // Ajusta el espacio horizontal
-                              Text(
-                                'Av. Amezaga, Lima 15081',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            // Primera fila con la primera imagen y texto
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center, // Centra verticalmente el contenido
+                              children: [
+                                Image.asset(
+                                  'assets/img/direccion.png',
+                                  width: 24,
+                                  height: 24,
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16), // Salto de línea
-                          // Segunda fila con la segunda imagen y texto
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center, // Centra verticalmente el contenido
-                            children: [
-                              Image.asset(
-                                'assets/img/telefono.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8), // Ajusta el espacio horizontal
-                              Text(
-                                '910 - 021',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                SizedBox(width: 8), // Ajusta el espacio horizontal
+                                Text(
+                                  '${predio.direccion}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                            SizedBox(height: 10), // Salto de línea
+                            // Segunda fila con la segunda imagen y texto
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center, // Centra verticalmente el contenido
+                              children: [
+                                Image.asset(
+                                  'assets/img/telefono.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                SizedBox(width: 8), // Ajusta el espacio horizontal
+                                Text(
+                                  '${predio.telefono}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -202,11 +215,11 @@ class MainApp extends StatelessWidget {
                   // Botón RECAUDACIÓN
                   ElevatedButton(
                     onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Recaudacion()),
-                        );
-                      },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Recaudacion()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.blue, // Color de fondo del botón
                       shape: RoundedRectangleBorder(
@@ -230,20 +243,48 @@ class MainApp extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Aquí manejas la navegación a la otra pantalla
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Bellavista()),
-          );
-        },
-        child: Icon(Icons.arrow_forward),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton(
+              onPressed: () {
+                final currentIndex = predios.indexOf(predio);
+                if (currentIndex > 0) {
+                  final previousPredio = predios[currentIndex - 1];
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainApp(previousPredio, predios)),
+                  );
+                }
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              onPressed: () {
+                final currentIndex = predios.indexOf(predio);
+                if (currentIndex < predios.length - 1) {
+                  final nextPredio = predios[currentIndex + 1];
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainApp(nextPredio, predios)),
+                  );
+                }
+              },
+              child: Icon(Icons.arrow_forward),
+            ),
+          ),
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
     );
   }
 }
-
 
 
