@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/conexionBD/conexion.dart';
-import 'package:proyecto_sm/models/predio_model.dart';
+import 'package:proyecto_sm/model/predio_model.dart';
 import 'package:proyecto_sm/main_app.dart';
 
 class MenuCondominios extends StatefulWidget {
@@ -16,7 +16,21 @@ class _PredioListScreenState extends State<MenuCondominios> {
     super.initState();
     fetchDataFromDatabase();
   }
+/*
+* // Debes inicializar tu conexión antes de usarla
+  var conexion = await ConexionBD.openConnection();
 
+  // Instancia el servicio y llama al método buscarTodos()
+  var prediosService = PrediosService(PrediosMapper(conexion));
+  var resultados = await prediosService.buscarTodos();
+
+  // Imprime los resultados en la consola
+  for (var resultado in resultados) {
+    print('id: ${resultado.idPredio}, descripcion: ${resultado.nombrePredio}');
+  }
+*
+*
+* */
   Future<void> fetchDataFromDatabase() async {
     final connection = await ConexionBD.openConnection();
 

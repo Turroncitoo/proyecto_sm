@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/Recaudacion.dart';
 import 'package:proyecto_sm/menu_condominios.dart';
-import 'package:proyecto_sm/models/predio_model.dart';
+import 'package:proyecto_sm/model/predio_model.dart';
 
 
 class MainApp extends StatelessWidget {

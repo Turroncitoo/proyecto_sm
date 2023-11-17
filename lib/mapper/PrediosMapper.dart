@@ -1,20 +1,20 @@
 import 'package:proyecto_sm/conexionBD/conexion.dart';
+import 'package:proyecto_sm/mapper/interface/IPrediosMapper.dart';
 import 'package:postgres/postgres.dart';
 
-class ConsultasBD {
+class PrediosMapper implements IPrediosMapper {
   final PostgreSQLConnection _conexion;
 
-  ConsultasBD(this._conexion);
+  PrediosMapper(this._conexion);
 
-
-  Future<List<Map<String, dynamic>>> obtenerPredios() async {
+  Future<List<Map<String, dynamic>>> buscarTodos() async {
     try {
       // Realizar consulta utilizando _conexion
       final results = await _conexion.query('SELECT '
-          'id_predio 	              AS idPredio, '
-          'UPPER(descripcion)       AS nombrePredio, '
-          'url_imagen		            AS imagenURL '
-          'FROM public.Predio ORDER BY id_predio ASC');
+          'id_predio              AS idPredio, '
+          'UPPER(descripcion)     AS nombrePredio, '
+          'url_imagen             AS imagenURL '
+          'FROM public.Predio ORDER BY idPredio ASC');
 
       // Convertir cada fila a un mapa
       List<Map<String, dynamic>> resultList = [];
@@ -33,11 +33,4 @@ class ConsultasBD {
       return [];
     }
   }
-// Puedes agregar más métodos para otras consultas
 }
-
-
-
-
-
-
