@@ -7,7 +7,7 @@ class DetallePredioMapper implements IDetallePredioMapper {
 
   DetallePredioMapper(this._conexion);
 
-  Future<List<Map<String, dynamic>>> buscarDetallePorId() async {
+  Future<List<Map<String, dynamic>>> buscarDetallePorId(int predioId) async {
     try {
       // Realizar consulta utilizando _conexion
       final results = await _conexion.query('SELECT '
@@ -17,9 +17,12 @@ class DetallePredioMapper implements IDetallePredioMapper {
           'pre.telefono	AS telefono,'
           'per.id_persona	AS idpersona,'
           'UPPER(CONCAT(per.nombres,' ',per.apellido_paterno,' ', per.apellido_materno)) AS nombre'
-          'FROM public.Predio as pre'
-          'LEFT JOIN public.Persona as per'
-          'ON pre.id_persona = per.id_persona');
+          'FROM public.Predio as pre '
+          'LEFT JOIN public.Persona as per '
+          'ON pre.id_persona = per.id_persona '
+          'WHERE pre.id_predio = @predioId',
+          substitutionValues: {'predioId': predioId});
+      // Utilizamos substitutionValues para evitar SQL injection
 
       // Convertir cada fila a un mapa
       List<Map<String, dynamic>> resultList = [];

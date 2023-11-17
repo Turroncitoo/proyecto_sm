@@ -6,8 +6,8 @@ class DetallePredioService {
 
   DetallePredioService(this._iDetallePredioMapper);
 
-  Future<List<DetallePredio>> buscarTodos() async {
-    final results = await _iDetallePredioMapper.buscarDetallePorId();
+  Future<List<DetallePredio>> buscarDetallePorId(int predioId) async {
+    final results = await _iDetallePredioMapper.buscarDetallePorId(predioId);
     return results.map((result) => DetallePredio.fromJson(result)).toList();
   }
 
