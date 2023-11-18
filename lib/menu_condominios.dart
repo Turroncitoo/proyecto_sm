@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/conexionBD/conexion.dart';
-import 'package:proyecto_sm/model/predio_model.dart';
+import 'package:proyecto_sm/mapper/PrediosMapper.dart';
 import 'package:proyecto_sm/main_app.dart';
+import 'package:proyecto_sm/model/Predio/Predio.dart';
+import 'package:proyecto_sm/service/PrediosService.dart';
+
 
 class MenuCondominios extends StatefulWidget {
-  @override
+
   _PredioListScreenState createState() => _PredioListScreenState();
 }
 
@@ -16,53 +19,16 @@ class _PredioListScreenState extends State<MenuCondominios> {
     super.initState();
     fetchDataFromDatabase();
   }
-/*
-* // Debes inicializar tu conexión antes de usarla
-  var conexion = await ConexionBD.openConnection();
 
-  // Instancia el servicio y llama al método buscarTodos()
-  var prediosService = PrediosService(PrediosMapper(conexion));
-  var resultados = await prediosService.buscarTodos();
+  fetchDataFromDatabase() async {
+    var conexion = await ConexionBD.openConnection();
+    var prediosService = PrediosService(PrediosMapper(conexion));
+    var resultados = await prediosService.buscarTodos();
 
-  // Imprime los resultados en la consola
-  for (var resultado in resultados) {
-    print('id: ${resultado.idPredio}, descripcion: ${resultado.nombrePredio}');
+    setState(() {
+      predios = resultados;
+    });
   }
-*
-*
-* */
-  Future<void> fetchDataFromDatabase() async {
-    final connection = await ConexionBD.openConnection();
-
-    try {
-      final results = await connection.query('SELECT id_predio, descripcion, direccion, telefono FROM predio');
-
-      if (results.isNotEmpty) {
-
-        for (var row in results) {
-          final idPredio = row[0] as int;
-          final descripcion = row[1] as String;
-          final direccion = row[2] as String;
-          final telefono = row[3] as String;
-
-          if (!predios.any((predio) => predio.id_predio == idPredio)) {
-            setState(() {
-              predios.add(Predio(id_predio: idPredio, descripcion: descripcion, direccion: direccion, telefono: telefono));
-              predios.sort((a, b) => a.id_predio.compareTo(b.id_predio));
-            });
-          }
-        }
-      } else {
-        print("No results found.");
-      }
-    } catch (e) {
-      print("Error");
-      print(e.toString());
-    } finally {
-      await ConexionBD.closeConnection();
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +80,7 @@ class _PredioListScreenState extends State<MenuCondominios> {
                         left: 110,
                         top: 160,
                         child: Text(
-                          '${predios[index].descripcion}', // Muestra la descripción en la pantalla.
+                          '${predios[index].nombrePredio}', // Muestra la descripción en la pantalla.
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,

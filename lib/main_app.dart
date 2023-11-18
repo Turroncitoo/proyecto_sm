@@ -1,14 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/Recaudacion.dart';
+import 'package:proyecto_sm/conexionBD/conexion.dart';
+import 'package:proyecto_sm/mapper/DetallePredioMapper.dart';
 import 'package:proyecto_sm/menu_condominios.dart';
-import 'package:proyecto_sm/model/predio_model.dart';
+import 'package:proyecto_sm/model/Predio/Predio.dart';
+import 'package:proyecto_sm/model/Predio/DetallePredio.dart';
+import 'package:proyecto_sm/service/DetallePredioService.dart';
 
 
-class MainApp extends StatelessWidget {
-  final Predio predio; // Agrega una instancia de Predio
-  final List<Predio> predios; // Agrega una lista de predios
+class MainApp extends StatefulWidget {
+  final Predio predio;
+  final List<Predio> predios;
 
-  MainApp(this.predio, this.predios); // Constructor que recibe predio y predios
+  MainApp(this.predio, this.predios);
+  _PredioDetalleScreenState createState() => _PredioDetalleScreenState();
+}
+
+class _PredioDetalleScreenState extends State<MainApp> {
+
+  List<DetallePredio> detalles = [];
+  int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromDatabase();
+  }
+
+  fetchDataFromDatabase() async {
+    var predioId = widget.predio.idPredio;
+    var conexion = await ConexionBD.openConnection();
+    var prediosService = DetallePredioService(DetallePredioMapper(conexion));
+    var resultados = await prediosService.buscarDetallePorId(predioId);
+
+    setState(() {
+      detalles = resultados;
+    });
+    for (var resultado in resultados) {
+      print('id: ${resultado.predio}');
+    }
+
+  }
+
+  void goToPreviousPredio() {
+    if (currentIndex > 0) {
+      setState(() {
+        currentIndex--;
+      });
+    }
+  }
+
+  void goToNextPredio() {
+    if (currentIndex < detalles.first.predio - 1) {
+      setState(() {
+        currentIndex++;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +111,9 @@ class MainApp extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: Text(
-                        '${predio.descripcion}',
+                        detalles.isNotEmpty
+                            ? '${detalles.first.descripcion}'  // Muestra la descripción del primer detalle
+                            : 'Sin detalles',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -142,7 +192,9 @@ class MainApp extends StatelessWidget {
                                 ),
                                 SizedBox(width: 8), // Ajusta el espacio horizontal
                                 Text(
-                                  '${predio.direccion}',
+                                  detalles.isNotEmpty
+                                      ? '${detalles.first.direccion}'  // Muestra la descripción del primer detalle
+                                      : 'Sin detalles',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -162,7 +214,9 @@ class MainApp extends StatelessWidget {
                                 ),
                                 SizedBox(width: 8), // Ajusta el espacio horizontal
                                 Text(
-                                  '${predio.telefono}',
+                                  detalles.isNotEmpty
+                                      ? '${detalles.first.telefono}'  // Muestra la descripción del primer detalle
+                                      : 'Sin detalles',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -199,7 +253,9 @@ class MainApp extends StatelessWidget {
                               ),
                               SizedBox(width: 8), // Ajusta el espacio horizontal
                               Text(
-                                'Edgardo Fernández',
+                                detalles.isNotEmpty
+                                    ? '${detalles.first.nombre}'  // Muestra la descripción del primer detalle
+                                    : 'Sin detalles',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -244,45 +300,44 @@ class MainApp extends StatelessWidget {
         ],
       ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: FloatingActionButton(
-              onPressed: () {
-                final currentIndex = predios.indexOf(predio);
-                if (currentIndex > 0) {
-                  final previousPredio = predios[currentIndex - 1];
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainApp(previousPredio, predios)),
-                  );
-                }
-              },
-              child: Icon(Icons.arrow_back),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              onPressed: () {
-                final currentIndex = predios.indexOf(predio);
-                if (currentIndex < predios.length - 1) {
-                  final nextPredio = predios[currentIndex + 1];
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainApp(nextPredio, predios)),
-                  );
-                }
-              },
-              child: Icon(Icons.arrow_forward),
-            ),
-          ),
-        ],
+     floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+floatingActionButton: Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: <Widget>[
+    Align(
+      alignment: Alignment.bottomLeft,
+      child: FloatingActionButton(
+        onPressed: () {
+          final currentIndex = widget.predios.indexOf(widget.predio);
+          if (currentIndex > 0) {
+            final previousPredio = widget.predios[currentIndex - 1];
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainApp(previousPredio, widget.predios)),
+            );
+          }
+        },
+        child: Icon(Icons.arrow_back),
       ),
-
+    ),
+    Align(
+      alignment: Alignment.bottomRight,
+      child: FloatingActionButton(
+        onPressed: () {
+          final currentIndex = widget.predios.indexOf(widget.predio);
+          if (currentIndex < widget.predios.length - 1) {
+            final nextPredio = widget.predios[currentIndex + 1];
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => MainApp(nextPredio, widget.predios)),
+            );
+          }
+        },
+        child: Icon(Icons.arrow_forward),
+      ),
+    ),
+  ],
+),
     );
   }
 }
