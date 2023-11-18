@@ -16,7 +16,7 @@ class DetallePredioMapper implements IDetallePredioMapper {
           'pre.direccion	AS direccion,'
           'pre.telefono	AS telefono,'
           'per.id_persona	AS idpersona,'
-          'UPPER(CONCAT(per.nombres,\',\',per.apellido_paterno,\',\', per.apellido_materno)) AS nombre '
+          'UPPER(CONCAT(per.nombres,\' \',per.apellido_paterno,\' \', per.apellido_materno)) AS nombre '
           'FROM public.Predio as pre '
           'LEFT JOIN public.Persona as per '
           'ON pre.id_persona = per.id_persona '

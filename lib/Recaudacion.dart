@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_sm/main_app.dart';
 import 'package:proyecto_sm/menu_condominios.dart';
 import 'package:proyecto_sm/reporte_departamento.dart';
 
