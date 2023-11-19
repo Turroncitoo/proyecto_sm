@@ -1,8 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_sm/conexionBD/conexion.dart';
 import 'package:proyecto_sm/menu_condominios.dart';
 import 'package:proyecto_sm/reporte_departamento.dart';
+import 'package:intl/intl.dart';
+import 'package:proyecto_sm/model/RecaudacionPredio/RecaudacionPredio.dart';
+import 'package:proyecto_sm/service/RecaudacionPredioService.dart';
+import 'package:proyecto_sm/mapper/RecaudacionPredioMapper.dart';
 
-class Recaudacion extends StatelessWidget {
+import 'package:proyecto_sm/model/Predio/DetallePredio.dart';
+import 'package:proyecto_sm/service/DetallePredioService.dart';
+import 'package:proyecto_sm/mapper/DetallePredioMapper.dart';
+
+class Recaudacion extends StatefulWidget {
+  final int predio;
+
+  Recaudacion(this.predio);
+  _PredioRecaudacionScreenState createState() => _PredioRecaudacionScreenState();
+}
+
+class _PredioRecaudacionScreenState extends State<Recaudacion> {
+  var  meses=11;
+  var anios=2023;
+  DateTime selectedDate = DateTime.now();
+
+  List<RecaudacionPredio> recaudacion = [];
+  List<DetallePredio> detalles = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromDatabase();
+  }
+
+  fetchDataFromDatabase() async {
+    var predioId = widget.predio;
+    var conexion = await ConexionBD.openConnection();
+    var prediosService = RecaudacionPredioService(RecaudacionPredioMapper(conexion));
+    var resultados = await prediosService.buscarTodos(meses, anios, predioId);
+
+    var prediosService2 = DetallePredioService(DetallePredioMapper(conexion));
+    var resultados2 = await prediosService2.buscarDetallePorId(predioId);
+
+    setState(() {
+      recaudacion = resultados;
+      detalles = resultados2;
+    });
+    for (var resultado in resultados) {
+      print('id: ${resultado.identificador}');
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2010),
+      lastDate: DateTime(2024),
+    );
+    if (picked != null && picked != DateTime.now()) {
+      setState(() {
+        // Actualizar los valores de mes y año según la fecha seleccionada
+        meses = picked.month;
+        anios = picked.year;
+      });
+      fetchDataFromDatabase(); // Volver a cargar los datos con la nueva fecha
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +175,9 @@ class Recaudacion extends StatelessWidget {
                                           ),
 
                                           Text(
-                                            'Edgardo Fernández',
+                                            detalles.isNotEmpty
+                                                ? '${detalles.first.nombre}'  // Muestra la descripción del primer detalle
+                                                : 'Sin detalles',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -144,7 +213,9 @@ class Recaudacion extends StatelessWidget {
                                           ),
 
                                           Text(
-                                            'BRISAS DE NARANJAL',
+                                            detalles.isNotEmpty
+                                                ? '${detalles.first.descripcion}'  // Muestra la descripción del primer detalle
+                                                : 'Sin detalles',
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -212,7 +283,12 @@ class Recaudacion extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 10),
-                          MyContainer(),
+                          InkWell(
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            child: MyContainer(selectedDate: selectedDate),
+                          ),
                           SizedBox(height: 30),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -240,181 +316,91 @@ class Recaudacion extends StatelessWidget {
                             ],
                           ),
                           SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(width: 40),
-                              // Bloque izquierdo
-                              Column(
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: recaudacion.length,
+                            itemBuilder: (context, index) {
+                              return Row(
                                 children: [
-                                  SizedBox(height: 14),
-                                  Container(
-                                    height: 50, // Altura contenedor derecho
-                                    width: 125, // Ancho contenedor derecho
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'E23-101',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20), // Espacio entre los dos contenedores
-                                  Container(
-                                    height: 50, // Altura contenedor derecho
-                                    width: 125, // Ancho contenedor derecho
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'E23-102',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20), // Espacio entre los dos contenedores
-                                  Container(
-                                    height: 50, // Altura contenedor derecho
-                                    width: 125, // Ancho contenedor derecho
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'E23-103',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(width: 80),
-                              // Bloque derecho
-                              Column(
-                                children: [
-                                  SizedBox(height: 14),
-                                  Container(
-                                    height: 50, // Altura contenedor derecho
-                                    width: 125, // Ancho contenedor derecho
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightGreenAccent,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      // Direcciona a otra ventana
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          // Navegar a otra ventana cuando se toque este contenedor
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => ReporteDepartamento()),
-                                          );
-                                        },
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'S/ 250.90',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 17,
+                                  SizedBox(width: 40),
+                                  // Bloque izquierdo
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 14),
+                                      Container(
+                                        height: 50, // Altura contenedor derecho
+                                        width: 125, // Ancho contenedor derecho
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(recaudacion.isNotEmpty
+                                                  ? '${recaudacion[index].identificador}' // Muestra la descripción del detalle en la posición 'index'
+                                                  : 'Sin detalles',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      SizedBox(height: 20), // Espacio entre los dos contenedores
+                                    ],
                                   ),
-                                  SizedBox(height: 20), // Espacio entre los dos contenedores
-                                  Container(
-                                    height: 50, // Altura contenedor derecho
-                                    width: 125, // Ancho contenedor derecho
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'S/ 270.90',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
+                                  SizedBox(width: 80),
+                                  // Bloque derecho
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 14),
+                                      Container(
+                                        height: 50, // Altura contenedor derecho
+                                        width: 125, // Ancho contenedor derecho
+                                        decoration: BoxDecoration(
+                                          color: Colors.lightGreenAccent,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          // Direcciona a otra ventana
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              // Navegar a otra ventana cuando se toque este contenedor
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => ReporteDepartamento()),
+                                              );
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(recaudacion.isNotEmpty
+                                                    ? '${recaudacion[index].monto}' // Muestra la descripción del detalle en la posición 'index'
+                                                    : 'Sin detalles',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 20), // Espacio entre los dos contenedores
-                                  Container(
-                                    height: 50, // Altura contenedor derecho
-                                    width: 125, // Ancho contenedor derecho
-                                    decoration: BoxDecoration(
-                                      color: Colors.lightGreenAccent,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'S/ 240.00',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                      SizedBox(height: 20), // Espacio entre los dos contenedores
+                                    ],
                                   ),
                                 ],
-                              ),
-                            ],
+                              );
+                            },
                           )
                         ],
                       ),
@@ -430,53 +416,27 @@ class Recaudacion extends StatelessWidget {
 }
 
 class MyContainer extends StatelessWidget {
+  final DateTime selectedDate;
+
+  MyContainer({required this.selectedDate});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
-      height: 45,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
+      // ... tu código existente ...
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'FEBRERO 2023',
+              '${DateFormat('MMMM yyyy').format(selectedDate)}', // Formatea la fecha
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 20,
               ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Año'),
-                    content: Text('Meses'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cerrar'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: Icon(
-              Icons.arrow_downward,
-              color: Colors.black,
-              size: 30,
             ),
           ),
         ],
@@ -484,3 +444,4 @@ class MyContainer extends StatelessWidget {
     );
   }
 }
+

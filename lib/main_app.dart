@@ -273,7 +273,7 @@ class _PredioDetalleScreenState extends State<MainApp> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Recaudacion()),
+                        MaterialPageRoute(builder: (context) => Recaudacion(widget.predio.idPredio)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

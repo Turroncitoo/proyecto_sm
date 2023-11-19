@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -12,6 +10,7 @@ abstract class RecaudacionPredio implements Built<RecaudacionPredio, Recaudacion
   String get monto;
   int get idEstado;
   String get descripcionEsta;
+  String get identificador;
 
   RecaudacionPredio._();
   factory RecaudacionPredio([void Function(RecaudacionPredioBuilder) updates]) = _$RecaudacionPredio;
@@ -27,7 +26,8 @@ abstract class RecaudacionPredio implements Built<RecaudacionPredio, Recaudacion
         ..idDeposito = json['iddeposito'] ?? -1
         ..monto = json['monto'] ?? ''
         ..idEstado = json['idestado'] ?? -1
-        ..descripcionEsta = json['descripcionesta'] ?? '',
+        ..descripcionEsta = json['descripcionesta'] ?? ''
+      ..identificador = json['identificador'] ?? '',
     );
   }
 }

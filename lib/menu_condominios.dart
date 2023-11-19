@@ -28,6 +28,10 @@ class _PredioListScreenState extends State<MenuCondominios> {
     setState(() {
       predios = resultados;
     });
+    for (var resultado in resultados) {
+      print('id: ${resultado.idPredio}');
+    }
+
   }
 
   @override

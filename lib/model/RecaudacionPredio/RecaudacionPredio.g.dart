@@ -37,6 +37,9 @@ class _$RecaudacionPredioSerializer
       'descripcionEsta',
       serializers.serialize(object.descripcionEsta,
           specifiedType: const FullType(String)),
+      'identificador',
+      serializers.serialize(object.identificador,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -78,6 +81,10 @@ class _$RecaudacionPredioSerializer
           result.descripcionEsta = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
+        case 'identificador':
+          result.identificador = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
       }
     }
 
@@ -98,6 +105,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
   final int idEstado;
   @override
   final String descripcionEsta;
+  @override
+  final String identificador;
 
   factory _$RecaudacionPredio(
           [void Function(RecaudacionPredioBuilder)? updates]) =>
@@ -109,7 +118,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
       required this.idDeposito,
       required this.monto,
       required this.idEstado,
-      required this.descripcionEsta})
+      required this.descripcionEsta,
+      required this.identificador})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(casa, r'RecaudacionPredio', 'casa');
     BuiltValueNullFieldError.checkNotNull(fecha, r'RecaudacionPredio', 'fecha');
@@ -120,6 +130,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
         idEstado, r'RecaudacionPredio', 'idEstado');
     BuiltValueNullFieldError.checkNotNull(
         descripcionEsta, r'RecaudacionPredio', 'descripcionEsta');
+    BuiltValueNullFieldError.checkNotNull(
+        identificador, r'RecaudacionPredio', 'identificador');
   }
 
   @override
@@ -139,7 +151,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
         idDeposito == other.idDeposito &&
         monto == other.monto &&
         idEstado == other.idEstado &&
-        descripcionEsta == other.descripcionEsta;
+        descripcionEsta == other.descripcionEsta &&
+        identificador == other.identificador;
   }
 
   @override
@@ -151,6 +164,7 @@ class _$RecaudacionPredio extends RecaudacionPredio {
     _$hash = $jc(_$hash, monto.hashCode);
     _$hash = $jc(_$hash, idEstado.hashCode);
     _$hash = $jc(_$hash, descripcionEsta.hashCode);
+    _$hash = $jc(_$hash, identificador.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -163,7 +177,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
           ..add('idDeposito', idDeposito)
           ..add('monto', monto)
           ..add('idEstado', idEstado)
-          ..add('descripcionEsta', descripcionEsta))
+          ..add('descripcionEsta', descripcionEsta)
+          ..add('identificador', identificador))
         .toString();
   }
 }
@@ -197,6 +212,11 @@ class RecaudacionPredioBuilder
   set descripcionEsta(String? descripcionEsta) =>
       _$this._descripcionEsta = descripcionEsta;
 
+  String? _identificador;
+  String? get identificador => _$this._identificador;
+  set identificador(String? identificador) =>
+      _$this._identificador = identificador;
+
   RecaudacionPredioBuilder();
 
   RecaudacionPredioBuilder get _$this {
@@ -208,6 +228,7 @@ class RecaudacionPredioBuilder
       _monto = $v.monto;
       _idEstado = $v.idEstado;
       _descripcionEsta = $v.descripcionEsta;
+      _identificador = $v.identificador;
       _$v = null;
     }
     return this;
@@ -241,7 +262,9 @@ class RecaudacionPredioBuilder
             idEstado: BuiltValueNullFieldError.checkNotNull(
                 idEstado, r'RecaudacionPredio', 'idEstado'),
             descripcionEsta: BuiltValueNullFieldError.checkNotNull(
-                descripcionEsta, r'RecaudacionPredio', 'descripcionEsta'));
+                descripcionEsta, r'RecaudacionPredio', 'descripcionEsta'),
+            identificador: BuiltValueNullFieldError.checkNotNull(
+                identificador, r'RecaudacionPredio', 'identificador'));
     replace(_$result);
     return _$result;
   }
