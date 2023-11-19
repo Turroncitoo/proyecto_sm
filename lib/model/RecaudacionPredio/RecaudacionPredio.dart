@@ -11,7 +11,7 @@ abstract class RecaudacionPredio implements Built<RecaudacionPredio, Recaudacion
   int get idEstado;
   String get descripcionEsta;
   String get identificador;
-
+  String get formfecha;
   RecaudacionPredio._();
   factory RecaudacionPredio([void Function(RecaudacionPredioBuilder) updates]) = _$RecaudacionPredio;
 
@@ -27,7 +27,8 @@ abstract class RecaudacionPredio implements Built<RecaudacionPredio, Recaudacion
         ..monto = json['monto'] ?? ''
         ..idEstado = json['idestado'] ?? -1
         ..descripcionEsta = json['descripcionesta'] ?? ''
-      ..identificador = json['identificador'] ?? '',
+        ..identificador = json['identificador'] ?? ''
+         ..formfecha = json['formfecha'] ?? '',
     );
   }
 }

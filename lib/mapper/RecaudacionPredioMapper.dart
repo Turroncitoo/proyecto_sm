@@ -17,6 +17,7 @@ class RecaudacionPredioMapper implements IRecaudacionPredioMapper {
         'E' || RIGHT(CONCAT('000', cas.id_predio), 3) || '-' || RIGHT(CONCAT('000', cas.id_casa), 3) AS identificador,
         casd.fecha_registro AS fecha,
         casd.id_deposito AS idDeposito,
+        CONCAT(EXTRACT(YEAR FROM casd.fecha_registro), RIGHT(CONCAT("0", EXTRACT(MONTH FROM casd.fecha_registro)), 2)) AS formfecha,
         depo.area AS monto,
         casd.id_estado AS idEstado,
         est.descripcion AS descripcionEsta

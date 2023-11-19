@@ -40,6 +40,9 @@ class _$RecaudacionPredioSerializer
       'identificador',
       serializers.serialize(object.identificador,
           specifiedType: const FullType(String)),
+      'formfecha',
+      serializers.serialize(object.formfecha,
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -85,6 +88,10 @@ class _$RecaudacionPredioSerializer
           result.identificador = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
+        case 'formfecha':
+          result.formfecha = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
       }
     }
 
@@ -107,6 +114,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
   final String descripcionEsta;
   @override
   final String identificador;
+  @override
+  final String formfecha;
 
   factory _$RecaudacionPredio(
           [void Function(RecaudacionPredioBuilder)? updates]) =>
@@ -119,7 +128,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
       required this.monto,
       required this.idEstado,
       required this.descripcionEsta,
-      required this.identificador})
+      required this.identificador,
+      required this.formfecha})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(casa, r'RecaudacionPredio', 'casa');
     BuiltValueNullFieldError.checkNotNull(fecha, r'RecaudacionPredio', 'fecha');
@@ -132,6 +142,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
         descripcionEsta, r'RecaudacionPredio', 'descripcionEsta');
     BuiltValueNullFieldError.checkNotNull(
         identificador, r'RecaudacionPredio', 'identificador');
+    BuiltValueNullFieldError.checkNotNull(
+        formfecha, r'RecaudacionPredio', 'formfecha');
   }
 
   @override
@@ -152,7 +164,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
         monto == other.monto &&
         idEstado == other.idEstado &&
         descripcionEsta == other.descripcionEsta &&
-        identificador == other.identificador;
+        identificador == other.identificador &&
+        formfecha == other.formfecha;
   }
 
   @override
@@ -165,6 +178,7 @@ class _$RecaudacionPredio extends RecaudacionPredio {
     _$hash = $jc(_$hash, idEstado.hashCode);
     _$hash = $jc(_$hash, descripcionEsta.hashCode);
     _$hash = $jc(_$hash, identificador.hashCode);
+    _$hash = $jc(_$hash, formfecha.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -178,7 +192,8 @@ class _$RecaudacionPredio extends RecaudacionPredio {
           ..add('monto', monto)
           ..add('idEstado', idEstado)
           ..add('descripcionEsta', descripcionEsta)
-          ..add('identificador', identificador))
+          ..add('identificador', identificador)
+          ..add('formfecha', formfecha))
         .toString();
   }
 }
@@ -217,6 +232,10 @@ class RecaudacionPredioBuilder
   set identificador(String? identificador) =>
       _$this._identificador = identificador;
 
+  String? _formfecha;
+  String? get formfecha => _$this._formfecha;
+  set formfecha(String? formfecha) => _$this._formfecha = formfecha;
+
   RecaudacionPredioBuilder();
 
   RecaudacionPredioBuilder get _$this {
@@ -229,6 +248,7 @@ class RecaudacionPredioBuilder
       _idEstado = $v.idEstado;
       _descripcionEsta = $v.descripcionEsta;
       _identificador = $v.identificador;
+      _formfecha = $v.formfecha;
       _$v = null;
     }
     return this;
@@ -264,7 +284,9 @@ class RecaudacionPredioBuilder
             descripcionEsta: BuiltValueNullFieldError.checkNotNull(
                 descripcionEsta, r'RecaudacionPredio', 'descripcionEsta'),
             identificador: BuiltValueNullFieldError.checkNotNull(
-                identificador, r'RecaudacionPredio', 'identificador'));
+                identificador, r'RecaudacionPredio', 'identificador'),
+            formfecha: BuiltValueNullFieldError.checkNotNull(
+                formfecha, r'RecaudacionPredio', 'formfecha'));
     replace(_$result);
     return _$result;
   }
