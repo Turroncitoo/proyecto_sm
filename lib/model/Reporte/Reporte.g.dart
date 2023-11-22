@@ -19,28 +19,35 @@ class _$ReporteSerializer implements StructuredSerializer<Reporte> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[
       'recibo',
-      serializers.serialize(object.recibo, specifiedType: const FullType(int)),
+      serializers.serialize(object.recibo,
+          specifiedType: const FullType(String)),
       'formfecha',
       serializers.serialize(object.formfecha,
           specifiedType: const FullType(String)),
       'total',
-      serializers.serialize(object.total, specifiedType: const FullType(int)),
+      serializers.serialize(object.total,
+          specifiedType: const FullType(String)),
       'identificador',
       serializers.serialize(object.identificador,
           specifiedType: const FullType(String)),
+      'inquilino',
+      serializers.serialize(object.inquilino,
+          specifiedType: const FullType(String)),
       'nacimiento',
       serializers.serialize(object.nacimiento,
-          specifiedType: const FullType(DateTime)),
+          specifiedType: const FullType(String)),
       'ndocumento',
       serializers.serialize(object.ndocumento,
           specifiedType: const FullType(String)),
       'laboral',
-      serializers.serialize(object.laboral, specifiedType: const FullType(int)),
+      serializers.serialize(object.laboral,
+          specifiedType: const FullType(String)),
       'consumo',
-      serializers.serialize(object.consumo, specifiedType: const FullType(int)),
+      serializers.serialize(object.consumo,
+          specifiedType: const FullType(String)),
       'mantenimiento',
       serializers.serialize(object.mantenimiento,
-          specifiedType: const FullType(int)),
+          specifiedType: const FullType(String)),
     ];
 
     return result;
@@ -59,7 +66,7 @@ class _$ReporteSerializer implements StructuredSerializer<Reporte> {
       switch (key) {
         case 'recibo':
           result.recibo = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'formfecha':
           result.formfecha = serializers.deserialize(value,
@@ -67,15 +74,19 @@ class _$ReporteSerializer implements StructuredSerializer<Reporte> {
           break;
         case 'total':
           result.total = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'identificador':
           result.identificador = serializers.deserialize(value,
               specifiedType: const FullType(String))! as String;
           break;
+        case 'inquilino':
+          result.inquilino = serializers.deserialize(value,
+              specifiedType: const FullType(String))! as String;
+          break;
         case 'nacimiento':
           result.nacimiento = serializers.deserialize(value,
-              specifiedType: const FullType(DateTime))! as DateTime;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'ndocumento':
           result.ndocumento = serializers.deserialize(value,
@@ -83,15 +94,15 @@ class _$ReporteSerializer implements StructuredSerializer<Reporte> {
           break;
         case 'laboral':
           result.laboral = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'consumo':
           result.consumo = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'mantenimiento':
           result.mantenimiento = serializers.deserialize(value,
-              specifiedType: const FullType(int))! as int;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -102,23 +113,25 @@ class _$ReporteSerializer implements StructuredSerializer<Reporte> {
 
 class _$Reporte extends Reporte {
   @override
-  final int recibo;
+  final String recibo;
   @override
   final String formfecha;
   @override
-  final int total;
+  final String total;
   @override
   final String identificador;
   @override
-  final DateTime nacimiento;
+  final String inquilino;
+  @override
+  final String nacimiento;
   @override
   final String ndocumento;
   @override
-  final int laboral;
+  final String laboral;
   @override
-  final int consumo;
+  final String consumo;
   @override
-  final int mantenimiento;
+  final String mantenimiento;
 
   factory _$Reporte([void Function(ReporteBuilder)? updates]) =>
       (new ReporteBuilder()..update(updates))._build();
@@ -128,6 +141,7 @@ class _$Reporte extends Reporte {
       required this.formfecha,
       required this.total,
       required this.identificador,
+      required this.inquilino,
       required this.nacimiento,
       required this.ndocumento,
       required this.laboral,
@@ -139,6 +153,7 @@ class _$Reporte extends Reporte {
     BuiltValueNullFieldError.checkNotNull(total, r'Reporte', 'total');
     BuiltValueNullFieldError.checkNotNull(
         identificador, r'Reporte', 'identificador');
+    BuiltValueNullFieldError.checkNotNull(inquilino, r'Reporte', 'inquilino');
     BuiltValueNullFieldError.checkNotNull(nacimiento, r'Reporte', 'nacimiento');
     BuiltValueNullFieldError.checkNotNull(ndocumento, r'Reporte', 'ndocumento');
     BuiltValueNullFieldError.checkNotNull(laboral, r'Reporte', 'laboral');
@@ -162,6 +177,7 @@ class _$Reporte extends Reporte {
         formfecha == other.formfecha &&
         total == other.total &&
         identificador == other.identificador &&
+        inquilino == other.inquilino &&
         nacimiento == other.nacimiento &&
         ndocumento == other.ndocumento &&
         laboral == other.laboral &&
@@ -176,6 +192,7 @@ class _$Reporte extends Reporte {
     _$hash = $jc(_$hash, formfecha.hashCode);
     _$hash = $jc(_$hash, total.hashCode);
     _$hash = $jc(_$hash, identificador.hashCode);
+    _$hash = $jc(_$hash, inquilino.hashCode);
     _$hash = $jc(_$hash, nacimiento.hashCode);
     _$hash = $jc(_$hash, ndocumento.hashCode);
     _$hash = $jc(_$hash, laboral.hashCode);
@@ -192,6 +209,7 @@ class _$Reporte extends Reporte {
           ..add('formfecha', formfecha)
           ..add('total', total)
           ..add('identificador', identificador)
+          ..add('inquilino', inquilino)
           ..add('nacimiento', nacimiento)
           ..add('ndocumento', ndocumento)
           ..add('laboral', laboral)
@@ -204,42 +222,46 @@ class _$Reporte extends Reporte {
 class ReporteBuilder implements Builder<Reporte, ReporteBuilder> {
   _$Reporte? _$v;
 
-  int? _recibo;
-  int? get recibo => _$this._recibo;
-  set recibo(int? recibo) => _$this._recibo = recibo;
+  String? _recibo;
+  String? get recibo => _$this._recibo;
+  set recibo(String? recibo) => _$this._recibo = recibo;
 
   String? _formfecha;
   String? get formfecha => _$this._formfecha;
   set formfecha(String? formfecha) => _$this._formfecha = formfecha;
 
-  int? _total;
-  int? get total => _$this._total;
-  set total(int? total) => _$this._total = total;
+  String? _total;
+  String? get total => _$this._total;
+  set total(String? total) => _$this._total = total;
 
   String? _identificador;
   String? get identificador => _$this._identificador;
   set identificador(String? identificador) =>
       _$this._identificador = identificador;
 
-  DateTime? _nacimiento;
-  DateTime? get nacimiento => _$this._nacimiento;
-  set nacimiento(DateTime? nacimiento) => _$this._nacimiento = nacimiento;
+  String? _inquilino;
+  String? get inquilino => _$this._inquilino;
+  set inquilino(String? inquilino) => _$this._inquilino = inquilino;
+
+  String? _nacimiento;
+  String? get nacimiento => _$this._nacimiento;
+  set nacimiento(String? nacimiento) => _$this._nacimiento = nacimiento;
 
   String? _ndocumento;
   String? get ndocumento => _$this._ndocumento;
   set ndocumento(String? ndocumento) => _$this._ndocumento = ndocumento;
 
-  int? _laboral;
-  int? get laboral => _$this._laboral;
-  set laboral(int? laboral) => _$this._laboral = laboral;
+  String? _laboral;
+  String? get laboral => _$this._laboral;
+  set laboral(String? laboral) => _$this._laboral = laboral;
 
-  int? _consumo;
-  int? get consumo => _$this._consumo;
-  set consumo(int? consumo) => _$this._consumo = consumo;
+  String? _consumo;
+  String? get consumo => _$this._consumo;
+  set consumo(String? consumo) => _$this._consumo = consumo;
 
-  int? _mantenimiento;
-  int? get mantenimiento => _$this._mantenimiento;
-  set mantenimiento(int? mantenimiento) =>
+  String? _mantenimiento;
+  String? get mantenimiento => _$this._mantenimiento;
+  set mantenimiento(String? mantenimiento) =>
       _$this._mantenimiento = mantenimiento;
 
   ReporteBuilder();
@@ -251,6 +273,7 @@ class ReporteBuilder implements Builder<Reporte, ReporteBuilder> {
       _formfecha = $v.formfecha;
       _total = $v.total;
       _identificador = $v.identificador;
+      _inquilino = $v.inquilino;
       _nacimiento = $v.nacimiento;
       _ndocumento = $v.ndocumento;
       _laboral = $v.laboral;
@@ -286,6 +309,8 @@ class ReporteBuilder implements Builder<Reporte, ReporteBuilder> {
                 total, r'Reporte', 'total'),
             identificador: BuiltValueNullFieldError.checkNotNull(
                 identificador, r'Reporte', 'identificador'),
+            inquilino: BuiltValueNullFieldError.checkNotNull(
+                inquilino, r'Reporte', 'inquilino'),
             nacimiento: BuiltValueNullFieldError.checkNotNull(
                 nacimiento, r'Reporte', 'nacimiento'),
             ndocumento: BuiltValueNullFieldError.checkNotNull(

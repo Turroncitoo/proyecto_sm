@@ -1,20 +1,20 @@
 import 'dart:convert';
-
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 part 'Reporte.g.dart';
 
 abstract class Reporte implements Built<Reporte, ReporteBuilder> {
-  int       get recibo;
+  String       get recibo;
   String    get formfecha;
-  int       get total;
+  String       get total;
   String    get identificador;
-  DateTime  get nacimiento;
+  String    get inquilino;
+  String  get nacimiento;
   String    get ndocumento;
-  int       get laboral;
-  int       get consumo;
-  int       get mantenimiento;
+  String       get laboral;
+  String       get consumo;
+  String       get mantenimiento;
 
   Reporte._();
   factory Reporte([void Function(ReporteBuilder) updates]) = _$Reporte;
@@ -29,6 +29,7 @@ abstract class Reporte implements Built<Reporte, ReporteBuilder> {
         ..formfecha = json['formfecha'] ?? ''
         ..total = json['total'] ?? -1
         ..identificador = json['identificador'] ?? ''
+        ..inquilino = json['inquilino'] ?? ''
         ..nacimiento = json['nacimiento'] ?? ''
         ..ndocumento = json['ndocumento'] ?? ''
         ..laboral = json['laboral'] ?? -1
@@ -37,3 +38,36 @@ abstract class Reporte implements Built<Reporte, ReporteBuilder> {
     );
   }
 }
+
+/*
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+
+part 'Reporte.g.dart';
+
+abstract class Reporte implements Built<Reporte, ReporteBuilder> {
+  String get nom_inquilino;
+  DateTime get fecha_nacimiento;
+  String get ndocumento;
+
+  Reporte._();
+  factory Reporte([void Function(ReporteBuilder) updates]) = _$Reporte;
+
+  static Serializer<Reporte> get serializer => _$reporteSerializer;
+
+  factory Reporte.fromJson(Map<String, dynamic> json) {
+    try {
+      return Reporte(
+            (b) => b
+          ..nom_inquilino = json['nom_inquilino'] ?? ''
+          ..fecha_nacimiento = json['fecha_nacimiento'] ?? ''
+          ..ndocumento = json['ndocumento'] ?? '',
+      );
+    } catch (e) {
+      print('Error en la conversión de nacimiento: $e');
+      rethrow;
+    }
+  }
+}
+
+ */

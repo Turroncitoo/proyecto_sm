@@ -21,7 +21,7 @@ class DetalleRecaudacion extends StatelessWidget {
               icon: Icon(Icons.close)
           ),
         ],
-        leading: IconButton(
+        /*leading: IconButton(
           onPressed: () {},
           icon: IconButton(
             onPressed: () {
@@ -32,7 +32,7 @@ class DetalleRecaudacion extends StatelessWidget {
             },
             icon: Icon(Icons.arrow_back),
           ),
-        ),
+        ),*/
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(25),

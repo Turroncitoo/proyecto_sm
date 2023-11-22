@@ -46,7 +46,7 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
       detalles = resultados2;
     });
     for (var resultado in resultados) {
-      print('id: ${resultado.identificador}');
+      print('id: ${resultado.monto}');
     }
   }
 
@@ -88,20 +88,20 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
               icon: Icon(Icons.close)
           ),
         ],
+        /*
         leading: IconButton(
           onPressed: () {},
           icon: IconButton(
             onPressed: () {
-              /*
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => MainApp()),
               );
-               */
             },
             icon: Icon(Icons.arrow_back),
           ),
         ),
+         */
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(25),
@@ -118,14 +118,14 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
                   children: <Widget>[
                     SizedBox(height: 10),
                     Container(
-                      //margin: EdgeInsets.all(20),
+//margin: EdgeInsets.all(20),
                       height: 155, // Altura del contenedor principal
                       decoration: BoxDecoration(
                         color: Colors.grey, // Color de fondo
                       ),
                       child: Row(
                         children: [
-                          // Bloque izquierdo con imagen y texto
+// Bloque izquierdo con imagen y texto
                           Container(
                             width: 170, // Ancho del bloque izquierdo
                             child: Column(
@@ -134,8 +134,8 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
                               children: [
                                 Image.asset(
                                   'assets/img/perfil.png',
-                                  width: 40,
-                                  height: 40,
+                                  width: 60,
+                                  height: 60,
                                 ),
                                 Text(
                                   'Administrador',
@@ -148,83 +148,89 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
                               ],
                             ),
                           ),
-                          // Bloque derecho con dos contenedores apilados verticalmente
+// Bloque derecho con dos contenedores apilados verticalmente
                           Column(
                             children: [
                               SizedBox(height: 14),
                               Container(
-                                height: 50, // Altura del primer contenedor derecho
-                                width: 230, // Ancho del primer contenedor derecho
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 200, // Ancho del primer contenedor derecho
                                 decoration: BoxDecoration(
                                   color: Colors.white, // Color de fondo del primer contenedor
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      // Primera fila con la primera imagen y texto
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Image.asset(
-                                            'assets/img/usuario.png',
-                                            width: 28,
-                                            height: 28,
-                                          ),
-
-                                          Text(
-                                            detalles.isNotEmpty
-                                                ? '${detalles.first.nombre}'  // Muestra la descripción del primer detalle
-                                                : 'Sin detalles',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 5),
+// Primera fila con la primera imagen y texto
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'assets/img/usuario.png',
+                                              width: 24,
+                                              height: 24,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            SizedBox(width: 8),
+                                            Text(
+                                              detalles.isNotEmpty
+                                                  ? '${detalles.first.nombre}'  // Muestra la descripción del primer detalle
+                                                  : 'Sin detalles',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                               SizedBox(height: 25), // Espacio entre los dos contenedores
                               Container(
-                                height: 50,
-                                width: 230,
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                width: 200,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Image.asset(
-                                            'assets/img/direccion.png',
-                                            width: 28,
-                                            height: 28,
-                                          ),
-
-                                          Text(
-                                            detalles.isNotEmpty
-                                                ? '${detalles.first.descripcion}'  // Muestra la descripción del primer detalle
-                                                : 'Sin detalles',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 17,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 10),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'assets/img/direccion.png',
+                                              width: 24,
+                                              height: 24,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            SizedBox(width: 8),
+                                            Text(
+                                              detalles.isNotEmpty
+                                                  ? '${detalles.first.descripcion}'  // Muestra la descripción del primer detalle
+                                                  : 'Sin detalles',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -375,7 +381,7 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
                                               // Navegar a otra ventana cuando se toque este contenedor
                                               Navigator.push(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => ReporteDepartamento()),
+                                                MaterialPageRoute(builder: (context) => ReporteDepartamento(recaudacion[index])),
                                               );
                                             },
                                             child: Column(
@@ -444,4 +450,3 @@ class MyContainer extends StatelessWidget {
     );
   }
 }
-

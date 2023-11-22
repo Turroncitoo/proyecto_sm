@@ -239,31 +239,35 @@ class _PredioDetalleScreenState extends State<MainApp> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Primera fila con la primera imagen y texto
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center, // Centra verticalmente el contenido
-                            children: [
-                              Image.asset(
-                                'assets/img/usuario.png',
-                                width: 24,
-                                height: 24,
-                              ),
-                              SizedBox(width: 8), // Ajusta el espacio horizontal
-                              Text(
-                                detalles.isNotEmpty
-                                    ? '${detalles.first.nombre}'  // Muestra la descripción del primer detalle
-                                    : 'Sin detalles',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            // Primera fila con la primera imagen y texto
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center, // Centra verticalmente el contenido
+                              children: [
+                                Image.asset(
+                                  'assets/img/usuario.png',
+                                  width: 24,
+                                  height: 24,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                SizedBox(width: 8), // Ajusta el espacio horizontal
+                                Text(
+                                  detalles.isNotEmpty
+                                      ? '${detalles.first.nombre}'  // Muestra la descripción del primer detalle
+                                      : 'Sin detalles',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

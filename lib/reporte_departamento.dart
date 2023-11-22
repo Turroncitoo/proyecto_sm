@@ -4,7 +4,53 @@ import 'package:proyecto_sm/detalle_recaudacion.dart';
 import 'package:proyecto_sm/main_app.dart';
 import 'package:proyecto_sm/menu_condominios.dart';
 
-class ReporteDepartamento extends StatelessWidget {
+import 'package:proyecto_sm/conexionBD/conexion.dart';
+import 'package:proyecto_sm/model/RecaudacionPredio/RecaudacionPredio.dart';
+import 'package:proyecto_sm/service/RecaudacionPredioService.dart';
+import 'package:proyecto_sm/mapper/RecaudacionPredioMapper.dart';
+
+import 'package:proyecto_sm/model/Reporte/Reporte.dart';
+import 'package:proyecto_sm/service/ReporteService.dart';
+import 'package:proyecto_sm/mapper/ReporteMapper.dart';
+
+class ReporteDepartamento extends StatefulWidget {
+  //final String recaudacion;
+  //final String fecha;
+
+  final RecaudacionPredio periodo;
+
+  ReporteDepartamento(this.periodo);
+  _PredioReporteScreenState createState() => _PredioReporteScreenState();
+}
+
+class _PredioReporteScreenState extends State<ReporteDepartamento> {
+  List<Reporte> reportes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromDatabase();
+  }
+
+  fetchDataFromDatabase() async {
+
+    var periodo = widget.periodo.formfecha;
+    var identificador = widget.periodo.identificador;
+    var conexion = await ConexionBD.openConnection();
+    var prediosService = ReporteService(ReporteMapper(conexion));
+    var resultados = await prediosService.buscarReporte(periodo, identificador);
+    print('Consulta SQL: $periodo - $identificador');
+
+
+    setState(() {
+      reportes = resultados;
+    });
+    print('id: ${reportes.isNotEmpty ? reportes.first.recibo : 'Lista vacía'}');
+    for (var resultado in reportes) {
+      print('id: ${resultado.recibo}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +62,8 @@ class ReporteDepartamento extends StatelessWidget {
           IconButton(
               onPressed: (){
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MenuCondominios()),
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuCondominios()),
                 );
               },
               icon: Icon(Icons.close)
@@ -36,17 +82,17 @@ class ReporteDepartamento extends StatelessWidget {
             ),
         ),*/
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-          )
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(25),
+              bottomRight: Radius.circular(25),
+            )
         ),
       ),
       body: LayoutBuilder(
           builder: (context, constraints){
             return SingleChildScrollView(
               child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Column(
                   children: <Widget> [
                     SizedBox(height: 30),
@@ -69,7 +115,7 @@ class ReporteDepartamento extends StatelessWidget {
                               //crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'E23-101',
+                                  '${widget.periodo.identificador}',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -92,7 +138,7 @@ class ReporteDepartamento extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'S/ 250.90',
+                                  '${widget.periodo.monto}',
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -133,7 +179,9 @@ class ReporteDepartamento extends StatelessWidget {
                                 ),
 
                                 Text(
-                                  'Jose Miguel Gutierrez',
+                                  reportes.isNotEmpty
+                                      ? '${reportes.first.inquilino}'  // Muestra la descripción del primer detalle
+                                      : 'Sin detalles',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -157,7 +205,9 @@ class ReporteDepartamento extends StatelessWidget {
                                 ),
 
                                 Text(
-                                  '16/07/1989',
+                                  reportes.isNotEmpty
+                                      ? '${reportes.first.nacimiento}'  // Muestra la descripción del primer detalle
+                                      : 'Sin detalles',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -181,7 +231,9 @@ class ReporteDepartamento extends StatelessWidget {
                                 ),
 
                                 Text(
-                                  '19457836',
+                                  reportes.isNotEmpty
+                                      ? '${reportes.first.ndocumento}'  // Muestra la descripción del primer detalle
+                                      : 'Sin detalles',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -236,7 +288,9 @@ class ReporteDepartamento extends StatelessWidget {
                                         ),
 
                                         Text(
-                                          'S/ 100.00',
+                                          reportes.isNotEmpty
+                                              ? '${reportes.first.laboral}'  // Muestra la descripción del primer detalle
+                                              : 'Sin detalles',
                                           style: TextStyle(
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -278,7 +332,9 @@ class ReporteDepartamento extends StatelessWidget {
                                         ),
 
                                         Text(
-                                          'S/ 80.00',
+                                          reportes.isNotEmpty
+                                              ? '${reportes.first.consumo}'  // Muestra la descripción del primer detalle
+                                              : 'Sin detalles',
                                           style: TextStyle(
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -320,7 +376,9 @@ class ReporteDepartamento extends StatelessWidget {
                                         ),
 
                                         Text(
-                                          'S/ 40.00',
+                                          reportes.isNotEmpty
+                                              ? '${reportes.first.mantenimiento}'  // Muestra la descripción del primer detalle
+                                              : 'Sin detalles',
                                           style: TextStyle(
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -362,7 +420,7 @@ class ReporteDepartamento extends StatelessWidget {
                                         ),
 
                                         Text(
-                                          'S/ 30.90',
+                                          'S/ X',
                                           style: TextStyle(
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
@@ -404,7 +462,7 @@ class ReporteDepartamento extends StatelessWidget {
                                         ),
 
                                         Text(
-                                          'S/ 250.90',
+                                          '${widget.periodo.monto}',
                                           style: TextStyle(
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,
