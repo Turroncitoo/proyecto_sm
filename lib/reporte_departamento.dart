@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_sm/Recaudacion.dart';
-import 'package:proyecto_sm/detalle_recaudacion.dart';
 import 'package:proyecto_sm/main_app.dart';
 import 'package:proyecto_sm/menu_condominios.dart';
 
@@ -482,34 +481,6 @@ class _PredioReporteScreenState extends State<ReporteDepartamento> {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    // Botón RECAUDACIÓN
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DetalleRecaudacion()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.blue, // Color de fondo del botón
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0), // Esquinas curveadas
-                          ),
-                          minimumSize: Size(40, 50)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          'Generar Reporte',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
                         ),
                       ),
                     ),
