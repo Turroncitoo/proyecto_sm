@@ -8,7 +8,7 @@ class ReporteMapper implements IReporteMapper {
 
   ReporteMapper(this._conexion);
 
-  Future<List<Map<String, dynamic>>> buscarReporte(String periodo, String identificador) async {
+  Future<List<Map<String, dynamic>>> buscarReporte(String periodo, int id_predio, int id_casa) async {
     try {
       // Realizar consulta utilizando _conexion
       final results = await _conexion.query('''
@@ -34,7 +34,7 @@ class ReporteMapper implements IReporteMapper {
             LEFT JOIN public.Persona pers ON prop.id_persona = pers.id_persona 
             WHERE rec.periodo = @periodo AND cas.id_predio = @id_predio AND cas.id_casa = @id_casa
             GROUP BY rec.id_mant_recibo, rec.importe, identificador, inquilino, nacimiento, ndocumento, formfecha''',
-        substitutionValues: {'periodo': '202311', 'id_predio': 2, 'id_casa': 7},
+        substitutionValues: {'periodo': periodo, 'id_predio': id_predio, 'id_casa': id_casa},
       );
 
 

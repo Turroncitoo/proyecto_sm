@@ -36,9 +36,12 @@ class _PredioReporteScreenState extends State<ReporteDepartamento> {
 
     var periodo = widget.periodo.formfecha;
     var identificador = widget.periodo.identificador;
+    var idCasa = int.parse(identificador.substring(3, 4));
+    var idPredio = int.parse(identificador.substring(7, 8));
+
     var conexion = await ConexionBD.openConnection();
     var prediosService = ReporteService(ReporteMapper(conexion));
-    var resultados = await prediosService.buscarReporte(periodo, identificador);
+    var resultados = await prediosService.buscarReporte(periodo, idCasa, idPredio);
     print('Consulta SQL: $periodo - $identificador');
 
 
@@ -420,7 +423,7 @@ class _PredioReporteScreenState extends State<ReporteDepartamento> {
                                         ),
 
                                         Text(
-                                          'S/ X',
+                                          '0.00',
                                           style: TextStyle(
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold,

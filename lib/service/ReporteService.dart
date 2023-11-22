@@ -20,8 +20,8 @@ class ReporteService {
   final IReporteMapper _iReporteMapper;
   ReporteService(this._iReporteMapper);
 
-  Future<List<Reporte>> buscarReporte(String casaId, String predioId) async {
-    final results = await _iReporteMapper.buscarReporte(casaId, predioId);
+  Future<List<Reporte>> buscarReporte(String periodo, int id_predio, int id_casa) async {
+    final results = await _iReporteMapper.buscarReporte(periodo, id_predio, id_casa);
     return results.map((result) => Reporte.fromJson(result)).toList();
   }
 }
