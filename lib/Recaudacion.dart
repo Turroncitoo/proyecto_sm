@@ -247,26 +247,17 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
                       decoration: BoxDecoration(
                         color: Colors.grey,
                       ),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Center(
-                              child: Text(
-                                'GRAFICO DE BARRAS',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: Image.asset(
+                        'assets/img/naranjal.jpg',
+                        width: 500,
+                        height: 300,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     SizedBox(height: 10),
                     Container(
                       width: 500,
-                      height: 400,
+                      height: 600,
                       decoration: BoxDecoration(
                         color: Colors.indigo[900],
                         borderRadius: BorderRadius.only(
@@ -293,7 +284,15 @@ class _PredioRecaudacionScreenState extends State<Recaudacion> {
                             onTap: () {
                               _selectDate(context);
                             },
-                            child: MyContainer(selectedDate: selectedDate),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.black, width: 2),
+                              ),
+                              child: Center(
+                                child: MyContainer(selectedDate: selectedDate),
+                              ),
+                            ),
                           ),
                           SizedBox(height: 30),
                           Row(
@@ -438,6 +437,7 @@ class MyContainer extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               '${DateFormat('MMMM yyyy').format(selectedDate)}', // Formatea la fecha
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,

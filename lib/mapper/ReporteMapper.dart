@@ -17,7 +17,7 @@ class ReporteMapper implements IReporteMapper {
             CAST(rec.periodo AS varchar)  AS formfecha, 
             CAST(rec.importe AS varchar) AS total, 
             CAST('E' || RIGHT(CONCAT('000', cas.id_predio), 3) || '-' || RIGHT(CONCAT('000', cas.id_casa), 3)  AS varchar) AS identificador, 
-            CAST(UPPER(CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno)) AS varchar) AS inquilino, 
+            CAST(UPPER(CONCAT(pers.nombres,\' \', pers.apellido_paterno,\' \', pers.apellido_materno)) AS varchar) AS inquilino, 
             CAST(pers.fecha_nacimiento  AS varchar) AS nacimiento, 
             CAST(pers.ndocumento  AS varchar) AS ndocumento, 
             CAST(COALESCE(SUM(CASE WHEN cgas.id_clase_gasto = 1 THEN det.importe_casa END), 0) AS varchar) AS laboral, 
