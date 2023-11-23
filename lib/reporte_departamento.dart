@@ -389,7 +389,7 @@ class _PredioReporteScreenState extends State<ReporteDepartamento> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 14),
+                        SizedBox(height: 25),
                         // Cuarta Fila
 
                         SizedBox(height: 14),
